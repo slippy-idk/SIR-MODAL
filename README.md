@@ -4,7 +4,7 @@
 The repo contains a project that activley implements the SIR model in digital format. 
 
 # Licensing
-Licensing can be found in LICENSE.md
+Licensing can be found in `LICENSE.md`
 
-# Archive Date 
+# Archive History
 N/A.
