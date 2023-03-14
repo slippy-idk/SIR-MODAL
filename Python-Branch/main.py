@@ -12,19 +12,14 @@ check = customtkinter.IntVar()
 
 def Login(U, P):
     getVar = check.get()
-    found = []
     
-
     if(getVar == 0):
         messagebox.showinfo("Missing Something!", "Please accept the terms and conditions!")
     
     with open('logininfo.json') as user_file:
         parsed_json = json.load(user_file)
-    
-    if(U in parsed_json['Usernames']):
-        print("Found")
-    else:
-        print("Not found")
+        Username_List = parsed_json['Usernames']
+    user_file.close()
         
 
 
