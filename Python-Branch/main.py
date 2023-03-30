@@ -1,7 +1,6 @@
 # Imports
 import customtkinter
 from tkinter import messagebox
-import json
 
 # Theme Setting
 customtkinter.set_appearance_mode("dark")
@@ -13,40 +12,30 @@ root.title("Sir Model/Login")
 root.geometry("500x350")
 check = customtkinter.IntVar()
 
+def open_secondary_window():
+    # Create secondary (or popup) window.
+    secondary_window = customtkinter.Toplevel()
+    secondary_window.title("Secondary Window")
+    secondary_window.config(width=300, height=200)
+    # Create a button to close (destroy) this window.
+    button_close = customtkinter.CTkButton(
+        secondary_window,
+        text="Close window",
+        command=secondary_window.destroy
+    )
+    button_close.place(x=75, y=75)
+
+
 # Setup an account
-def Setup(U, P):
+
+def Login():
     getVar = check.get()
 
-    if(getVar == 0):
+    if (getVar == 0):
         return messagebox.showerror("Missing Something!", "Please accept the terms and conditions!")
     
-    with open('logininfo.json', 'w') as user_file:
-        input_Username = Username.get()
-        input_Password = Password.get()
-        print(input_Username, input_Password)
-        
-    user_file.close()
+    open_secondary_window()
 
-    return messagebox.showinfo("Completed", "You have been added to the login system.")
-
-# Username + Password Check
-def Login(U, P):
-    getVar = check.get()
-    
-    if(getVar == 0):
-        return messagebox.showerror("Missing Something!", "Please accept the terms and conditions!")
-    
-    with open('logininfo.json', 'r') as user_file:
-        parsed_json = json.load(user_file)
-        Username_List = parsed_json['Usernames']
-        Password_List = parsed_json['Passwords']
-    user_file.close()
-
-    if(Username in Username_List and Password in Password_List):
-        print("Found.") 
-    else:
-        return messagebox.showerror("Oh no!", "Can't find your inputed data!")
-        
 
 
 frame = customtkinter.CTkFrame(master=root)
@@ -58,14 +47,9 @@ label.pack(pady=12, padx=10)
 Username = customtkinter.CTkEntry(master=frame, placeholder_text="Username")
 Username.pack(pady=12, padx=10)
 
-Password = customtkinter.CTkEntry(master=frame, placeholder_text="Password", show="*")
-Password.pack(pady=12, padx=10)
-
-login_Button = customtkinter.CTkButton(master=frame, text="Login", command=lambda: Login(Username, Password))
+login_Button = customtkinter.CTkButton(master=frame, text="Login", command=lambda: Login())
 login_Button.pack(pady=12, padx=10)
 
-signup_Button = customtkinter.CTkButton(master=frame, text="Signup", command=lambda: Setup(Username, Password))
-signup_Button.pack(pady=12, padx=10)
 
 terms_Checkbox = customtkinter.CTkCheckBox(master=frame, text="I agree to the terms and conditions of use", variable=check)
 terms_Checkbox.pack(pady=12, padx=10)
