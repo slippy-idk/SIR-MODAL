@@ -1,6 +1,7 @@
 # Imports
 import customtkinter
 from tkinter import messagebox
+import tkinter as tk
 
 # Theme Setting
 customtkinter.set_appearance_mode("dark")
@@ -14,7 +15,7 @@ check = customtkinter.IntVar()
 
 def open_secondary_window():
     # Create secondary (or popup) window.
-    secondary_window = customtkinter.Toplevel()
+    secondary_window = tk.Toplevel()
     secondary_window.title("Secondary Window")
     secondary_window.config(width=300, height=200)
     # Create a button to close (destroy) this window.
