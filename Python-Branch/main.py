@@ -13,29 +13,35 @@ root.title("Sir Model/Login")
 root.geometry("500x350")
 check = customtkinter.IntVar()
 
-def open_secondary_window():
+def userModelUI():
+    # Hides the login menu.
+    root.withdraw()
+
     # Create secondary (or popup) window.
-    secondary_window = tk.Toplevel()
-    secondary_window.title("Secondary Window")
-    secondary_window.config(width=300, height=200)
+    userModelUI_window = tk.Toplevel()
+    userModelUI_window.title(Username.get()+'/Sir Model/Menu')
+    userModelUI_window.config(width=500, height=500)
+
     # Create a button to close (destroy) this window.
     button_close = customtkinter.CTkButton(
-        secondary_window,
+        userModelUI_window,
         text="Close window",
-        command=secondary_window.destroy
+        command=userModelUI_window.destroy
     )
-    button_close.place(x=75, y=75)
+    button_close.place(x=250, y=250)
 
 
-# Setup an account
-
+# Setup an "account"
 def Login():
     getVar = check.get()
 
     if (getVar == 0):
         return messagebox.showerror("Missing Something!", "Please accept the terms and conditions!")
+
+    if(Username.get() == None):
+        return messagebox.showerror("Missing Something!", "Please enter a username!")
     
-    open_secondary_window()
+    userModelUI()
 
 
 
