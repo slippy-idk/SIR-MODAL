@@ -13,36 +13,72 @@ root.title("Sir Model/Login")
 root.geometry("500x350")
 check = customtkinter.IntVar()
 
-def userModelUI():
-    # Hides the login menu.
+# Functions
+def generateData(S, I, R):
+    try:
+        # Variables for the formula, don't change what they equal to, they equal to user input.
+        susceptible = int(S.get())
+        infected = int(I.get())
+        recovered = int(R.get())
+    
+    except(ValueError):
+        messagebox.showerror("Error", "Please make sure that you only enter numbers!")
+    
+    # Add the simulation code here.
+    # Make sure that the defined functions are not defined within this function, they should be defined outside the function.
+    # If there's any issues, let me know by opening a PR request.
+
+
+def closingSystem(R, U):
+    if messagebox.askokcancel("Quit", "Are you sure you want to quit?"):
+        U.destroy()
+        R.destroy()
+
+
+def userModelUI(U):
+    # Hides the login menu
     root.withdraw()
 
-    # Create secondary (or popup) window.
+    # Create secondary (or popup) window
     userModelUI_window = tk.Toplevel()
-    userModelUI_window.title(Username.get()+'/Sir Model/Menu')
-    userModelUI_window.config(width=500, height=500)
+    userModelUI_window.title(U.get()+'/Sir Model/Menu')
+    userModelUI_window.geometry("500x500")
 
-    # Create a button to close (destroy) this window.
-    button_close = customtkinter.CTkButton(
-        userModelUI_window,
-        text="Close window",
-        command=userModelUI_window.destroy
-    )
-    button_close.place(x=250, y=250)
+    # Border setting
+    frame = customtkinter.CTkFrame(master=userModelUI_window)
+    frame.pack(pady=36, padx=30, fill="both", expand=True)
+
+    # Lable setting
+    label = customtkinter.CTkLabel(master=frame, text="Model Menu")
+    label.pack(pady=12, padx=10)
+
+    # Box Setting
+    susceptibleBox = customtkinter.CTkEntry(master=frame, placeholder_text="Susceptible")
+    susceptibleBox.pack(pady=12, padx=10)
+
+    infectedBox = customtkinter.CTkEntry(master=frame, placeholder_text="Infected")
+    infectedBox.pack(pady=12, padx=10)
+
+    recoveredBox = customtkinter.CTkEntry(master=frame, placeholder_text="Recovered")
+    recoveredBox.pack(pady=12, padx=10)
+
+    runButton = customtkinter.CTkButton(master=frame, text="Run", command=lambda: generateData(susceptibleBox, infectedBox, recoveredBox))
+    runButton.pack(pady=30, padx=10)
+
+    userModelUI_window.protocol("WM_DELETE_WINDOW", lambda:closingSystem(root, userModelUI_window))
 
 
 # Setup an "account"
-def Login():
+def Login(U):
     getVar = check.get()
 
     if (getVar == 0):
         return messagebox.showerror("Missing Something!", "Please accept the terms and conditions!")
 
-    if(Username.get() == None):
+    if(U.get() == None):
         return messagebox.showerror("Missing Something!", "Please enter a username!")
     
-    userModelUI()
-
+    userModelUI(Username)
 
 
 frame = customtkinter.CTkFrame(master=root)
@@ -54,7 +90,7 @@ label.pack(pady=12, padx=10)
 Username = customtkinter.CTkEntry(master=frame, placeholder_text="Username")
 Username.pack(pady=12, padx=10)
 
-login_Button = customtkinter.CTkButton(master=frame, text="Login", command=lambda: Login())
+login_Button = customtkinter.CTkButton(master=frame, text="Login", command=lambda: Login(Username))
 login_Button.pack(pady=12, padx=10)
 
 
