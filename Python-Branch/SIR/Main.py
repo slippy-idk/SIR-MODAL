@@ -18,31 +18,32 @@ caseinf = Infectivity/Recovery
 simdays = int(input("How many days would you like to simulate"))
 
 def sussy(): #below is the function that simulates the infection of a day by shwing the change in suseptible 
+    global susetible
+    global suseptible
+    global Innfected
     force_inf = Infectivity*Innfected
     force_inf = force_inf*pop
     force_inf = force_inf/pop
     force_inf = round(force_inf)
     print("current change of susetible pop -" + str(force_inf))
+    Innfected = Innfected + force_inf
     susetible = susetible - force_inf
-    print("current susetible pop is" + str(susetible))
-    infection()
+    print("the current innfected pop " + str(Innfected)
+    
+def amon():
+    global Recovery
+    global susetible
+    global Innfected
+    norm = Infectivity*Innfected
+    norm = norm*pop
+    norm = round(norm)
+    force_rec = Recovery*Innfected
+    force_rec = force_rec - norm
+    print("change of reocovery " + str(force_rec))
 
-def infection(): #this is the calculatin that detimins the infectin change for that day
-    force_rec = Infectivity*susetible*Innfected
-    force_rec = force_rec/susetible
-    force_rec = force_rec - Recovery
-    force_rec = round(force_rec)
-    print("the current innfected pop " + str(force_rec))
-    recovery()
+amon()
+    
 
-
-def recovery():
-    force_rev = Recovery*Innfected
-    force_rev = round(force_rev)
-    print("The number of recoverd and immune pop is " + str(force_rev))
- 
-
-sussy()
 
 
 
