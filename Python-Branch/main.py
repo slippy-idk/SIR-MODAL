@@ -26,7 +26,7 @@ def generateData(S, I, R):
     
     # Add the simulation code here.
     # Make sure that the defined functions are not defined within this function, they should be defined outside the function.
-    # If there's any issues, let me know by opening a PR request.
+    # If there's any issues, or problems with implementation, let me know by opening an issue and we can work on it together.
 
 
 def closingSystem(R, U):
