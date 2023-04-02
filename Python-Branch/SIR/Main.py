@@ -28,7 +28,7 @@ def sussy(): #below is the function that simulates the infection of a day by shw
     print("current change of susetible pop -" + str(force_inf))
     Innfected = Innfected + force_inf
     susetible = susetible - force_inf
-    print("the current innfected pop " + str(Innfected)
+    print("the current innfected pop " + str(Innfected))
     
 def amon():
     global Recovery
