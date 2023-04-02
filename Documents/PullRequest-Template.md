@@ -9,8 +9,11 @@ Please provide a status on your pull request. Either specify if its `ongoing` or
 
 You only need to specify this once. The matter of which if the PR is still `ongoing` or `awaiting` can be judged by the responses to the PR and the changes can be made accordingly then. You can specify this through making a section in your post about the status or use the labels. Labels would be more benefical. At the end of a PR, a `completed` label will be attached to the PR.
 
-## Issue linking:
+## 3. Issue linking:
 Please link an active issue to your pull request if applicable.
+
+## 4. Branch Dating 
+Please make sure that before you crete a pull reuqest for a branch, your branch is up-to-date with the current commits in orign. You can do this through `git merge origin`.
 
 ### Note:
 This is subject to change.
