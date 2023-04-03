@@ -57,16 +57,9 @@ def generateData(S, I, R, varST, currentDay, simulationMax, varInfectionRate, va
         currentDay = currentDay + 1 
 
         if(currentDay == simulationMax):
-            break # I change this to make a graph or something, I'm not sure.
+            break # I will change this to make a graph or something, I'm not sure.
     
     # print("Done.")
-
-
-
-
-
-
-
 
 def closingSystem(R, U):
     if messagebox.askokcancel("Quit", "Are you sure you want to quit?"):
