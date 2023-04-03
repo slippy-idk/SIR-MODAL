@@ -40,7 +40,7 @@ def generateData(S, I, R, varST, currentDay, simulationMax, varInfectionRate, va
         messagebox.showerror("Error", "Please make sure that you simulate at least 1 day.")
     
     while(currentDay < simulationMaxInt):
-        varPop = susceptible * infected * recovered
+        varPop = susceptible + infected + recovered
         varST = infectionRateInt * susceptible * infected / varPop
         varTI = infectionRateInt * susceptible * infected / varPop
         varRecRate = 1.0 / infectionLengthInt
