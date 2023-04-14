@@ -13,21 +13,60 @@ root.title("Sir Model/Login")
 root.geometry("500x350")
 check = customtkinter.IntVar()
 
+# Variables 
+day = 1 # Setting day
+
+DS = 0 #
+DI = 0 # Setting of the formula variables, they are equivalent to the globalisation, just without the key word.
+DR = 0 #
+
 # Functions
-def generateData(S, I, R):
+def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contactRateVar, recoveryRateVar):
     try:
-        # Variables for the formula, don't change what they equal to, they equal to user input.
+        # This is grabbing user input, and converting it into the correct format.
         susceptible = int(S.get())
         infected = int(I.get())
         recovered = int(R.get())
-    
-    except(ValueError):
-        messagebox.showerror("Error", "Please make sure that you only enter numbers!")
-    
-    # Add the simulation code here.
-    # Make sure that the defined functions are not defined within this function, they should be defined outside the function.
-    # If there's any issues, or problems with implementation, let me know by opening an issue and we can work on it together.
+        maxDays = int(maxDayVar.get())
 
+        contactRate = float(contactRateVar.get())
+        recoveryRate = float(recoveryRateVar.get())
+        
+        totalPopulation = susceptible + infected + recovered # Calculating the total population, equal to your N value.
+
+        # DSVAR, DIVAR, DRVAR are all equal to the current DS, DI, DR values, which are currently nothing.
+        
+        if(contactRate > 1.0 or recoveryRate > 1.0):
+            return messagebox.showerror("Error!", "Please make sure that you only enter an infected per day and a recovery per day lower than 1.0")
+        
+        if(contactRate == 1.0 or recoveryRate == 1.0): 
+            pass
+        else: 
+            # Instead of asking for a value like 0.X, we can just force it by dividing by ten. This will only work if the allowed infected rate and recovery rate are lower than 1.
+            contactRate = contactRate / 10 
+            recoveryRate = recoveryRate / 10
+        
+        # currentDayVar is equal to the day, and maxDays is equal to the max day that the user inputed
+        # While the current day is less than the max day, we will continually complete this
+
+        while(currentDayVar != maxDays):
+            DSVar = -(contactRate * susceptible * infected) / totalPopulation # The original: -(contact_rate * S * I) / N
+            DIVar = (contactRate * susceptible * infected) / totalPopulation - recoveryRate * infected # The original: (contact_rate * S * I ) / N - Rec_rate * I
+            DRVar = recoveryRate * infected # The original: DR = Rec_rate * I
+            
+            susceptible = susceptible + DSVar # The original: S = S + DS
+            infected = infected + DIVar # The original: I = I + DI 
+            recovered = recovered + DRVar # The original: R = R + DR
+            
+            print("==== "+str(currentDayVar)+" ====")
+            print("S: "+str(susceptible))
+            print("I: "+str(infected))
+            print("R: "+str(recovered))
+
+            currentDayVar = currentDayVar + 1
+
+    except(ValueError):
+        return messagebox.showerror("Error", "Please make sure that you only enter numbers and decimals (where applicable) and that all boxes are filled!")
 
 def closingSystem(R, U):
     if messagebox.askokcancel("Quit", "Are you sure you want to quit?"):
@@ -42,28 +81,40 @@ def userModelUI(U):
     # Create secondary (or popup) window
     userModelUI_window = tk.Toplevel()
     userModelUI_window.title(U.get()+'/Sir Model/Menu')
-    userModelUI_window.geometry("500x500")
+    userModelUI_window.geometry("600x600")
 
     # Border setting
     frame = customtkinter.CTkFrame(master=userModelUI_window)
     frame.pack(pady=36, padx=30, fill="both", expand=True)
 
     # Lable setting
-    label = customtkinter.CTkLabel(master=frame, text="Model Menu")
-    label.pack(pady=12, padx=10)
+    uilabel = customtkinter.CTkLabel(master=frame, text="Model Menu")
+    uilabel.pack(pady=12, padx=10)
+
+    uilabelWarning = customtkinter.CTkLabel(master=frame, text="Infected per day and recovered per day = 0.X (format)")
+    uilabelWarning.pack(pady=12, padx=10)
 
     # Box Setting
     susceptibleBox = customtkinter.CTkEntry(master=frame, placeholder_text="Susceptible")
-    susceptibleBox.pack(pady=12, padx=10)
+    susceptibleBox.pack(pady=12, padx=10) # Taking in total susceptible.
 
     infectedBox = customtkinter.CTkEntry(master=frame, placeholder_text="Infected")
-    infectedBox.pack(pady=12, padx=10)
+    infectedBox.pack(pady=12, padx=10) # Taking in total infected.
 
     recoveredBox = customtkinter.CTkEntry(master=frame, placeholder_text="Recovered")
-    recoveredBox.pack(pady=12, padx=10)
+    recoveredBox.pack(pady=12, padx=10) # Taking in total recovered.
 
-    runButton = customtkinter.CTkButton(master=frame, text="Run", command=lambda: generateData(susceptibleBox, infectedBox, recoveredBox))
-    runButton.pack(pady=30, padx=10)
+    simulationDayBox = customtkinter.CTkEntry(master=frame, placeholder_text="Total Days")
+    simulationDayBox.pack(pady=12, padx=10) # Taking in the total amount of simulated days.
+
+    contactRateBox = customtkinter.CTkEntry(master=frame, placeholder_text="Infected per day")
+    contactRateBox.pack(pady=12, padx=10) # Taking in the total contact rate.
+
+    recoveryRateBox = customtkinter.CTkEntry(master=frame, placeholder_text="Recover per day")
+    recoveryRateBox.pack(pady=12, padx=10) # Taking in the total recovery rate.
+    
+    runButton = customtkinter.CTkButton(master=frame, text="Run", command=lambda: generateData(susceptibleBox, infectedBox, recoveredBox, DS, DI, DR, day, simulationDayBox, contactRateBox, recoveryRateBox))
+    runButton.pack(pady=20, padx=10)
 
     userModelUI_window.protocol("WM_DELETE_WINDOW", lambda:closingSystem(root, userModelUI_window))
 
