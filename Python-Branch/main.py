@@ -32,6 +32,7 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
 
         contactRate = float(contactRateVar.get())
         recoveryRate = float(recoveryRateVar.get())
+        loop = False
         
         totalPopulation = susceptible + infected + recovered # Calculating the total population, equal to your N value.
 
@@ -55,19 +56,24 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
         # currentDayVar is equal to the day, and maxDays is equal to the max day that the user inputed
         # While the current day is less than the max day, we will continually complete this
 
-        while(currentDayVar != maxDays):
+        loop = True
+        while(loop == True):
             DSVar = -(contactRate * susceptible * infected) / totalPopulation # The original: -(contact_rate * S * I) / N
             DIVar = (contactRate * susceptible * infected) / totalPopulation - recoveryRate * infected # The original: (contact_rate * S * I ) / N - Rec_rate * I
             DRVar = recoveryRate * infected # The original: DR = Rec_rate * I
-            
+                
             susceptible = susceptible + DSVar # The original: S = S + DS
             infected = infected + DIVar # The original: I = I + DI 
             recovered = recovered + DRVar # The original: R = R + DR
-            
+                
             print("==== "+str(currentDayVar)+" ====")
             print("S: "+str(susceptible))
             print("I: "+str(infected))
             print("R: "+str(recovered))
+    
+            if(currentDayVar == maxDays):
+                loop = False
+                break
 
             currentDayVar = currentDayVar + 1
 
