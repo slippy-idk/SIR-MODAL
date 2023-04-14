@@ -1,69 +1,53 @@
-sim_day = int(input("please enter the amount of days you wish to simulate")
-day = 1
-S = int(input("please enter your susetible population"))
-I = int(input("please neter your infected population"))
-R = 0
-pop = S + I + R
+###warning do not touch anything to do with the calculation lesy you know what your are doing
+# as touching one small detail of the calculation can make it scitificly invalid and can ruin other parts of the calculation
+# 
 
-ST = 0 # need to declere the three variables below so they become global beforehand
-#they all focous around the change of the modal pop for that group the next day 
-TI = 0
+sim_day = int(input("please enter the amount of days you wish to simulate"))  # the ammount of days simmulated
+days = 1
 
-TR = 0
+##Warning the two below varibles must be worked as a decimle point or be converted as working with whole numbers makes the program volotile####
+contact_rate = float(input("please enter the amount of people are infected per day in a decimle point "))
+Rec_rate = float(input("please enter the mean recover rate in  decimal point"))
 
-inf_rate = int(input("please enter the amount of people a day the infected cause the infection to spread"))
-inf_length = int(input("please enter the amount of days the infection lasts"))
+S = int(input("please enter the amount of sustebile population")) # the susetible population
 
-rec_rate = 1.0 / inf_length
+I = int(input("please enter the amount of people inffected on day 1")) # the innfected population
 
+R = 0 # the recovetred population
 
 
-def sus(): # work out change of susetible pop
-    global S
-    global ST
-    ST = -inf_rate*S*I/ pop
-    inf()
+N = S + I + R # the total population
 
-def inf():
-    global I
-    global TI
-    TI = inf_rate*S*I/ pop
-    rec()
+def SIR(): # works out change of the variables according to the SIR model
+    global DS
+    global DI
+    global DR
+    DS =  -(contact_rate * S * I) / N
+    DI = (contact_rate * S * I ) / N - Rec_rate * I
+    DR = Rec_rate * I
+    Calc()
 
-def rec():
-    global R
-    global TR
-    TR = rec_rate * I
-    change()
-
-
-def change():
-    global TR
-    global TI
-    global ST
+def Calc(): # works out the calcuklation and changes of varibles based of the SIR function's calculations
     global S
     global I
-    global day
-    global R
-    S = S + ST
-    I = I + TI
-    R = R + TR
-    print("Susetible = " + str(S))
-    print("Infected = " + str(I))
-    print("Recovered = " + str(R))
-    day = day + 1
-    wam()
+    global R 
+    S = S + DS
+    I = I + DI
+    R = R + DR
+    print("s = " + str(S))
+    print("I = " + str(I))
+    print("r = " + str(R))
+    day()
 
-def test():
-    print("a")
-
-def wam():
-    global day
-    print(day)
-    if day > sim_day:
-        print("l")
+def day(): #works out the days and wether the simulation should run to the end or it should re run through the calculations again
+    global days
+    if days > sim_day:
+        print("program finished")
     else:
-        sus()
-        
-wam()
-    
+        days = days + 1
+        print(days)
+        SIR()
+
+print("day = " + str(days))
+SIR()
+
