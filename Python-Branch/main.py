@@ -41,18 +41,6 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
         if(contactRate > 1.0 or recoveryRate > 1.0):
             return messagebox.showerror("Error!", "Please make sure that you only enter an infected per day and a recovery per day lower than 1.0")
         
-        if(contactRate == 1.0 or recoveryRate == 1.0): 
-            pass
-        else: 
-            frac, whole = math.modf(contactRate)
-
-            if(whole == 0):
-                pass 
-            else: 
-                # Instead of asking for a value like 0.X, we can just force it by dividing by ten. This will only work if the allowed infected rate and recovery rate are lower than 1.
-                contactRate = contactRate / 10 
-                recoveryRate = recoveryRate / 10
-        
         # currentDayVar is equal to the day, and maxDays is equal to the max day that the user inputed
         # While the current day is less than the max day, we will continually complete this
 
