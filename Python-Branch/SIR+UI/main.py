@@ -2,7 +2,7 @@
 import customtkinter
 from tkinter import messagebox
 import tkinter as tk
-import math
+from matplotlib import pyplot as plt
 
 # Theme Setting
 customtkinter.set_appearance_mode("dark")
@@ -54,10 +54,10 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
             infected = infected + DIVar # The original: I = I + DI 
             recovered = recovered + DRVar # The original: R = R + DR
                 
-            print("==== "+str(currentDayVar)+" ====")
-            print("S: "+str(susceptible))
-            print("I: "+str(infected))
-            print("R: "+str(recovered))
+            # print("==== "+str(currentDayVar)+" ====")
+            # print("S: "+str(susceptible))
+            # print("I: "+str(infected))
+            # print("R: "+str(recovered))
     
             if(currentDayVar == maxDays):
                 loop = False
