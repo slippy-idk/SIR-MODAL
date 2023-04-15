@@ -53,11 +53,12 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
 
         file = Path("./Data.csv")
         if(file.exists()):
-            pass
+            with open('Data.csv', 'w') as previousFile:
+                previousFile.close()
         else:
             with open('Data.csv', "x") as createdFile:
                 createdFile.close()
-
+        
         loop = True
         while(loop == True):
             DSVar = -(contactRate * susceptible * infected) / totalPopulation # The original: -(contact_rate * S * I) / N
@@ -72,6 +73,13 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
             # print("S: "+str(susceptible))
             # print("I: "+str(infected))
             # print("R: "+str(recovered))
+
+            with open('Data.csv', 'a') as csvFile:
+                fieldName = ['Day', 'Susceptible', 'Infected', 'Recovered']
+                writer = csv.DictWriter(csvFile, fieldnames=fieldName)
+                writer.writeheader()
+                writer.writerow({'Day': currentDayVar, 'Susceptible': susceptible, 'Infected': infected, 'Recovered': recovered})
+                csvFile.close()
     
             if(currentDayVar == maxDays):
                 loop = False
