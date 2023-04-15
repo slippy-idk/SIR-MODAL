@@ -71,10 +71,10 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
             infected = infected + DIVar # The original: I = I + DI 
             recovered = recovered + DRVar # The original: R = R + DR
                 
-            # print("==== "+str(currentDayVar)+" ====")
-            # print("S: "+str(susceptible))
-            # print("I: "+str(infected))
-            # print("R: "+str(recovered))
+            print("==== "+str(currentDayVar)+" ====")
+            print("S: "+str(susceptible))
+            print("I: "+str(infected))
+            print("R: "+str(recovered))
 
             with open('Data.csv', 'a') as csvFile:
                 fieldName = ['Day', 'Susceptible', 'Infected', 'Recovered']
@@ -94,16 +94,15 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
 
             currentDayVar = currentDayVar + 1
             writerVal = writerVal + 1
+        
+        data = pd.read_csv('Data.csv')
 
         # Basic Functional Graph
-        #x = [5, 4, 3, 3, 2, 8]
-        #y = [5, 1, 3, 2, 2, 8]
-        #z = [1, 1, 5, 2, 2, 3]
-        #plt.title('Generated SIR Data')
-        #plt.plot(x, color='red')
-        #plt.plot(y, color='blue')
-        #plt.plot(z, color='purple')
-        #plt.show()
+        plt.title('Generated SIR Data')
+        plt.plot(data['Susceptible'], color='blue')
+        plt.plot(data['Infected'], color='red')
+        plt.plot(data['Recovered'], color='green')
+        plt.show()
 
     except(ValueError):
         return messagebox.showerror("Error", "Please make sure that you only enter numbers and decimals (where applicable) and that all boxes are filled!")
