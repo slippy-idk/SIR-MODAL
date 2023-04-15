@@ -2,11 +2,19 @@
 import customtkinter
 from tkinter import messagebox
 import tkinter as tk
-import math
+from matplotlib import pyplot as plt
+
+import os
+import csv
+from pathlib import Path
+import pandas as pd
 
 # Theme Setting
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
+
+# Directory Change
+os.chdir('./Python-Branch/SIR+UI')
 
 # Basic Setup
 root = customtkinter.CTk()
@@ -44,7 +52,16 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
         # currentDayVar is equal to the day, and maxDays is equal to the max day that the user inputed
         # While the current day is less than the max day, we will continually complete this
 
+        file = Path("./Data.csv")
+        if(file.exists()):
+            with open('Data.csv', 'w') as previousFile:
+                previousFile.close()
+        else:
+            with open('Data.csv', "x") as createdFile:
+                createdFile.close()
+        
         loop = True
+        writerVal = 0
         while(loop == True):
             DSVar = -(contactRate * susceptible * infected) / totalPopulation # The original: -(contact_rate * S * I) / N
             DIVar = (contactRate * susceptible * infected) / totalPopulation - recoveryRate * infected # The original: (contact_rate * S * I ) / N - Rec_rate * I
@@ -54,16 +71,38 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
             infected = infected + DIVar # The original: I = I + DI 
             recovered = recovered + DRVar # The original: R = R + DR
                 
-            print("==== "+str(currentDayVar)+" ====")
-            print("S: "+str(susceptible))
-            print("I: "+str(infected))
-            print("R: "+str(recovered))
+            #print("==== "+str(currentDayVar)+" ====")
+            #print("S: "+str(susceptible))
+            #print("I: "+str(infected))
+            #print("R: "+str(recovered))
+
+            with open('Data.csv', 'a') as csvFile:
+                fieldName = ['Day', 'Susceptible', 'Infected', 'Recovered']
+                writer = csv.DictWriter(csvFile, fieldnames=fieldName)
+
+                if(writerVal < 1):
+                    writer.writeheader()
+                else:
+                    pass 
+
+                writer.writerow({'Day': currentDayVar, 'Susceptible': susceptible, 'Infected': infected, 'Recovered': recovered})
+                csvFile.close()
     
             if(currentDayVar == maxDays):
                 loop = False
                 break
 
             currentDayVar = currentDayVar + 1
+            writerVal = writerVal + 1
+        
+        data = pd.read_csv('Data.csv')
+
+        # Basic Functional Graph
+        plt.title('Generated SIR Data')
+        plt.plot(data['Susceptible'], color='blue')
+        plt.plot(data['Infected'], color='red')
+        plt.plot(data['Recovered'], color='green')
+        plt.show()
 
     except(ValueError):
         return messagebox.showerror("Error", "Please make sure that you only enter numbers and decimals (where applicable) and that all boxes are filled!")
