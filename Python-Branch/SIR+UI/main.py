@@ -23,11 +23,11 @@ root.geometry("500x350")
 check = customtkinter.IntVar()
 
 # Variables 
-day = 1 # Setting day
+day = 1
 
-DS = 0 #
-DI = 0 # Setting of the formula variables, they are equivalent to the globalisation, just without the key word.
-DR = 0 #
+DS = 0
+DI = 0
+DR = 0
 
 # Functions
 def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contactRateVar, recoveryRateVar):
@@ -42,15 +42,10 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
         recoveryRate = float(recoveryRateVar.get())
         loop = False
         
-        totalPopulation = susceptible + infected + recovered # Calculating the total population, equal to your N value.
-
-        # DSVAR, DIVAR, DRVAR are all equal to the current DS, DI, DR values, which are currently nothing.
+        totalPopulation = susceptible + infected + recovered
         
         if(contactRate > 1.0 or recoveryRate > 1.0):
             return messagebox.showerror("Error!", "Please make sure that you only enter an infected per day and a recovery per day lower than 1.0")
-        
-        # currentDayVar is equal to the day, and maxDays is equal to the max day that the user inputed
-        # While the current day is less than the max day, we will continually complete this
 
         file = Path("./Data.csv")
         if(file.exists()):
@@ -63,18 +58,12 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
         loop = True
         writerVal = 0
         while(loop == True):
-            DSVar = -(contactRate * susceptible * infected) / totalPopulation # The original: -(contact_rate * S * I) / N
-            DIVar = (contactRate * susceptible * infected) / totalPopulation - recoveryRate * infected # The original: (contact_rate * S * I ) / N - Rec_rate * I
-            DRVar = recoveryRate * infected # The original: DR = Rec_rate * I
+            DSVar = -(contactRate * susceptible * infected) / totalPopulation
+            DIVar = (contactRate * susceptible * infected) / totalPopulation - recoveryRate * infected
                 
-            susceptible = susceptible + DSVar # The original: S = S + DS
-            infected = infected + DIVar # The original: I = I + DI 
-            recovered = recovered + DRVar # The original: R = R + DR
-                
-            #print("==== "+str(currentDayVar)+" ====")
-            #print("S: "+str(susceptible))
-            #print("I: "+str(infected))
-            #print("R: "+str(recovered))
+            susceptible = susceptible + DSVar
+            infected = infected + DIVar
+            recovered = recovered + DRVar
 
             with open('Data.csv', 'a') as csvFile:
                 fieldName = ['Day', 'Susceptible', 'Infected', 'Recovered']
