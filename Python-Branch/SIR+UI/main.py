@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 import os
 import csv
 from pathlib import Path
+import pandas as pd
 
 # Theme Setting
 customtkinter.set_appearance_mode("dark")
@@ -60,6 +61,7 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
                 createdFile.close()
         
         loop = True
+        writerVal = 0
         while(loop == True):
             DSVar = -(contactRate * susceptible * infected) / totalPopulation # The original: -(contact_rate * S * I) / N
             DIVar = (contactRate * susceptible * infected) / totalPopulation - recoveryRate * infected # The original: (contact_rate * S * I ) / N - Rec_rate * I
@@ -77,7 +79,12 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
             with open('Data.csv', 'a') as csvFile:
                 fieldName = ['Day', 'Susceptible', 'Infected', 'Recovered']
                 writer = csv.DictWriter(csvFile, fieldnames=fieldName)
-                writer.writeheader()
+
+                if(writerVal < 1):
+                    writer.writeheader()
+                else:
+                    pass 
+
                 writer.writerow({'Day': currentDayVar, 'Susceptible': susceptible, 'Infected': infected, 'Recovered': recovered})
                 csvFile.close()
     
@@ -86,16 +93,17 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
                 break
 
             currentDayVar = currentDayVar + 1
+            writerVal = writerVal + 1
 
         # Basic Functional Graph
-        x = [5, 4, 3, 3, 2, 8]
-        y = [5, 1, 3, 2, 2, 8]
-        z = [1, 1, 5, 2, 2, 3]
-        plt.title('Generated SIR Data')
-        plt.plot(x, color='red')
-        plt.plot(y, color='blue')
-        plt.plot(z, color='purple')
-        plt.show()
+        #x = [5, 4, 3, 3, 2, 8]
+        #y = [5, 1, 3, 2, 2, 8]
+        #z = [1, 1, 5, 2, 2, 3]
+        #plt.title('Generated SIR Data')
+        #plt.plot(x, color='red')
+        #plt.plot(y, color='blue')
+        #plt.plot(z, color='purple')
+        #plt.show()
 
     except(ValueError):
         return messagebox.showerror("Error", "Please make sure that you only enter numbers and decimals (where applicable) and that all boxes are filled!")
