@@ -3,7 +3,10 @@ import customtkinter
 from tkinter import messagebox
 import tkinter as tk
 from matplotlib import pyplot as plt
+
 import os
+import csv
+from pathlib import Path
 
 # Theme Setting
 customtkinter.set_appearance_mode("dark")
@@ -47,6 +50,13 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
         
         # currentDayVar is equal to the day, and maxDays is equal to the max day that the user inputed
         # While the current day is less than the max day, we will continually complete this
+
+        file = Path("./Data.csv")
+        if(file.exists()):
+            pass
+        else:
+            with open('Data.csv', "x") as createdFile:
+                createdFile.close()
 
         loop = True
         while(loop == True):
