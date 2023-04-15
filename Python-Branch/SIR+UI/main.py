@@ -71,10 +71,10 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
             infected = infected + DIVar # The original: I = I + DI 
             recovered = recovered + DRVar # The original: R = R + DR
                 
-            print("==== "+str(currentDayVar)+" ====")
-            print("S: "+str(susceptible))
-            print("I: "+str(infected))
-            print("R: "+str(recovered))
+            #print("==== "+str(currentDayVar)+" ====")
+            #print("S: "+str(susceptible))
+            #print("I: "+str(infected))
+            #print("R: "+str(recovered))
 
             with open('Data.csv', 'a') as csvFile:
                 fieldName = ['Day', 'Susceptible', 'Infected', 'Recovered']
