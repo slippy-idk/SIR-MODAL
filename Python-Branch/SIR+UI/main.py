@@ -3,10 +3,14 @@ import customtkinter
 from tkinter import messagebox
 import tkinter as tk
 from matplotlib import pyplot as plt
+import os
 
 # Theme Setting
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
+
+# Directory Change
+os.chdir('./Python-Branch/SIR+UI')
 
 # Basic Setup
 root = customtkinter.CTk()
@@ -64,6 +68,16 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
                 break
 
             currentDayVar = currentDayVar + 1
+
+        # Basic Functional Graph
+        x = [5, 4, 3, 3, 2, 8]
+        y = [5, 1, 3, 2, 2, 8]
+        z = [1, 1, 5, 2, 2, 3]
+        plt.title('Generated SIR Data')
+        plt.plot(x, color='red')
+        plt.plot(y, color='blue')
+        plt.plot(z, color='purple')
+        plt.show()
 
     except(ValueError):
         return messagebox.showerror("Error", "Please make sure that you only enter numbers and decimals (where applicable) and that all boxes are filled!")
