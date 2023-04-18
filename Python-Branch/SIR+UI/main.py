@@ -14,7 +14,7 @@ customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
 
 # Directory Change
-os.chdir('./Python-Branch/SIR+UI')
+
 
 # Basic Setup
 root = customtkinter.CTk()
@@ -60,6 +60,7 @@ def generateData(S, I, R, DSVar, DIVar, DRVar, currentDayVar, maxDayVar, contact
         while(loop == True):
             DSVar = -(contactRate * susceptible * infected) / totalPopulation
             DIVar = (contactRate * susceptible * infected) / totalPopulation - recoveryRate * infected
+            DRVar = recoveryRate * infected
                 
             susceptible = susceptible + DSVar
             infected = infected + DIVar
